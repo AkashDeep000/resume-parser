@@ -13,8 +13,8 @@ app.get("/", (req, res) => {
   if (!demo) {
     res.send("View demo by adding '?demo=1' at the end of the url");
   }
-  if (demo > 10) {
-    res.send("Only 10 demo available")
+  if (demo > 10 || demo < 1) {
+    res.send("Only 10 demo available (must be between 1 to 10)");
   }
   const pdfParser = new PDFParser();
   pdfParser.loadPDF(`cv/${demo}.pdf`);
