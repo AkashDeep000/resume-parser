@@ -1,5 +1,5 @@
 {
-	"type": "module",
+  "type": "module",
 	"dependencies": {
 		"pdf2json": "^3.0.4"
 	}
