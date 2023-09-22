@@ -64,7 +64,9 @@ const scraper = (pdfBuffer) => {
 
                 leftActiveSectionData.push({
                   info: leftTexts[i].R[0].T,
-                  type: emailRegex.test(leftTexts[i].R[0].T) ? "Email" : "Unknown",
+                  type: emailRegex.test(leftTexts[i].R[0].T)
+                    ? "Email"
+                    : "Unknown",
                 });
               } else if (leftActiveSection === "Languages") {
                 leftActiveSectionData.push({
@@ -106,6 +108,7 @@ const scraper = (pdfBuffer) => {
         }
 
         const rightData = {};
+        rightData.createdAt = new Date(pdfData.Meta.Metadata["xmp:createdate"])
         rightData.name = rightTexts[0].R[0].T;
         rightData.tagline = rightTexts[1].R[0].T;
         rightData.location = rightTexts[2].R[0].T;
