@@ -52,26 +52,55 @@ const scraper = (pdfBuffer) => {
             leftData[camelCase(leftActiveSection)] = [];
           } else {
             //console.log(leftTexts[i]);
+            const leftActiveSectionData =
+              leftData[camelCase(leftActiveSection)];
             if (
-              leftData[camelCase(leftActiveSection)].length === 0 ||
+              !leftActiveSectionData ||
               leftTexts[i - 1].oc === "#a8b0b5" ||
               leftTexts[i].y - leftTexts[i - 1]?.y > 1
             ) {
-              leftData[camelCase(leftActiveSection)].push(leftTexts[i].R[0].T);
+              if (leftActiveSection === "Contact") {
+                let emailRegex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+
+                leftActiveSectionData.push({
+                  info: leftTexts[i].R[0].T,
+                  type: emailRegex.test(leftTexts[i].R[0].T) ? "Email" : "Unknown",
+                });
+              } else if (leftActiveSection === "Languages") {
+                leftActiveSectionData.push({
+                  name: leftTexts[i].R[0].T,
+                  proficiency: "",
+                });
+              } else {
+                leftActiveSectionData.push(leftTexts[i].R[0].T);
+              }
             } else {
-              leftData[camelCase(leftActiveSection)][
-                leftData[camelCase(leftActiveSection)].length - 1
-              ] +=
-                isValidUrl(
-                  leftData[camelCase(leftActiveSection)][
-                    leftData[camelCase(leftActiveSection)].length - 1
-                  ]
-                ) && leftTexts[i].oc !== "#a8b0b5"
-                  ? ""
-                  : " ";
-              leftData[camelCase(leftActiveSection)][
-                leftData[camelCase(leftActiveSection)].length - 1
-              ] += leftTexts[i].R[0].T.trim();
+              if (leftActiveSection === "Contact") {
+                if (leftTexts[i].R[0].T.trim().startsWith("(")) {
+                  leftActiveSectionData[leftActiveSectionData.length - 1].type =
+                    leftTexts[i].R[0].T.trim().replace(/[()]/g, "");
+                } else {
+                  leftActiveSectionData[
+                    leftActiveSectionData.length - 1
+                  ].info += leftTexts[i].R[0].T.trim();
+                }
+              } else if (leftActiveSection === "Languages") {
+                if (leftTexts[i].R[0].T.trim().startsWith("(")) {
+                  leftActiveSectionData[
+                    leftActiveSectionData.length - 1
+                  ].proficiency = leftTexts[i].R[0].T.trim().replace(
+                    /[()]/g,
+                    ""
+                  );
+                } else {
+                  leftActiveSectionData[
+                    leftActiveSectionData.length - 1
+                  ].name += leftTexts[i].R[0].T.trim();
+                }
+              } else {
+                leftActiveSectionData[leftActiveSectionData.length - 1] +=
+                  " " + leftTexts[i].R[0].T.trim();
+              }
             }
           }
         }
@@ -104,7 +133,7 @@ const scraper = (pdfBuffer) => {
         const experience = parseExperience(experienceRelatedTexts);
         const education = parseEducation(educationRelatedTexts);
 
-        if (experience?.[0]?.roles[0]?.timeframe.includes("Present")) {
+        if (experience?.[0]?.roles[0]?.dateEnd) {
           rightData.currentRole = experience[0].roles[0].name;
           rightData.currentCompany = experience[0].name;
         }
@@ -139,17 +168,5 @@ const scraper = (pdfBuffer) => {
     });
   });
 };
-function isValidUrl(str) {
-  const pattern = new RegExp(
-    "^([a-zA-Z]+:\\/\\/)?" + // protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR IP (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-      "(\\#[-a-z\\d_]*)?$", // fragment locator
-    "i"
-  );
-  return pattern.test(str);
-}
 
 export default scraper;

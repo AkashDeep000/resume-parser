@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 const parseEducation = (data) => {
   const education = [];
   let activeEducation;
@@ -11,7 +13,8 @@ const parseEducation = (data) => {
         education.push({
           institutionName: item.R[0].T,
           course: "",
-          timeframe: "",
+          dateStart: "",
+          dateEnd: "",
         });
       }
     }
@@ -21,8 +24,16 @@ const parseEducation = (data) => {
         education[education.length - 1].course =
           education[education.length - 1].course.trim();
       } else {
-        education[education.length - 1].timeframe =
-          item.R[0].T.match(/\(([^)]+)\)/)?.[1];
+        const dateArray = item.R[0].T.match(/\(([^)]+)\)/)?.[1].split(" - ");
+
+        education[education.length - 1].dateStart = DateTime.fromFormat(
+          dateArray[0],
+          "yyyy"
+        );
+        education[education.length - 1].dateEnd = DateTime.fromFormat(
+          dateArray[1],
+          "yyyy"
+        );
       }
     }
   });

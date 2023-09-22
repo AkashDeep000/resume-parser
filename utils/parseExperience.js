@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 const parseExperience = (data) => {
   const companies = [];
   let activeCompany;
@@ -18,7 +20,8 @@ const parseExperience = (data) => {
       insideDesc = false;
       companies[companies.length - 1].roles.push({
         name: item.R[0].T,
-        timeframe: "",
+        dateStart: "",
+        dateEnd: "",
         duration: "",
         location: "",
         desc: "",
@@ -26,7 +29,15 @@ const parseExperience = (data) => {
     }
     if (item.R[0].TS[1] === 13.5 && i === activeRole?.index + 1) {
       const roles = companies[companies.length - 1].roles;
-      roles[roles.length - 1].timeframe = item.R[0].T.trim();
+
+      roles[roles.length - 1].dateStart = DateTime.fromFormat(
+        item.R[0].T.trim().split(" - ")[0],
+        "MMMM yyyy"
+      );
+      roles[roles.length - 1].dateEnd = DateTime.fromFormat(
+        item.R[0].T.trim().split(" - ")[1],
+        "MMMM yyyy"
+      );
     }
     if (item.R[0].TS[1] === 13.5 && i === activeRole?.index + 2) {
       const roles = companies[companies.length - 1].roles;
