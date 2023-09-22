@@ -9,7 +9,7 @@ const port = 3000;
 
 app.all("/", async (req, res) => {
   const demo = req.query.demo;
-  
+
   if (!(req.files?.pdf || demo)) {
     return res
       .status(400)
@@ -29,9 +29,13 @@ app.all("/", async (req, res) => {
   } else {
     pdfBuffer = req.files.pdf.data;
   }
-  
-  const data = await scraper(pdfBuffer);
-  return res.json(data);
+  try {
+    const data = await scraper(pdfBuffer);
+    return res.json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 app.listen(port, () => {

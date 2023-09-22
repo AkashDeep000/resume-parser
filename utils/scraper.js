@@ -6,16 +6,27 @@ const scraper = (pdfBuffer) => {
   return new Promise((resolve, reject) => {
     try {
       const pdfParser = new PDFParser();
-       pdfParser.parseBuffer(pdfBuffer);
-      //pdfParser.loadPDF("/storage/emulated/0/Download/Steely_M.pdf");
+      //pdfParser.parseBuffer(pdfBuffer);
+      pdfParser.loadPDF("/storage/emulated/0/Download/Steely_M.pdf");
 
-      pdfParser.on("pdfParser_dataError", (errData) =>
-        console.error(errData.parserError)
-      );
+      pdfParser.on("pdfParser_dataError", (errData) => {
+        console.error(errData.parserError);
+        reject(new Error(errData));
+      });
+
       pdfParser.on("pdfParser_dataReady", (pdfData) => {
-        const pages = JSON.parse(
-          decodeURIComponent(JSON.stringify(pdfData.Pages))
-        );
+      //converting URI encoding to normal text
+        for (var i = 0; i < pdfData.Pages.length; i++) {
+          for (var j = 0; j < pdfData.Pages[i].Texts.length; j++) {
+            pdfData.Pages[i].Texts[j].R[0].T = decodeURIComponent(
+              pdfData.Pages[i].Texts[j].R[0].T
+            );
+          }
+        }
+        
+    //staring scraping
+        const pages = pdfData.Pages;
+
         const leftTexts = [];
         const rightTexts = [];
 
@@ -123,7 +134,7 @@ const scraper = (pdfBuffer) => {
         resolve(finalData);
       });
     } catch (error) {
-      reject(error);
+      reject(new Error(error));
     }
   });
 };
