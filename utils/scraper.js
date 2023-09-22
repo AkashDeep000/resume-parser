@@ -6,8 +6,8 @@ const scraper = (pdfBuffer) => {
   return new Promise((resolve, reject) => {
     try {
       const pdfParser = new PDFParser();
-      //pdfParser.parseBuffer(pdfBuffer);
-      pdfParser.loadPDF("/storage/emulated/0/Download/Steely_M.pdf");
+      pdfParser.parseBuffer(pdfBuffer);
+     // pdfParser.loadPDF("/storage/emulated/0/Download/Steely_M.pdf");
 
       pdfParser.on("pdfParser_dataError", (errData) => {
         console.error(errData.parserError);
@@ -15,7 +15,7 @@ const scraper = (pdfBuffer) => {
       });
 
       pdfParser.on("pdfParser_dataReady", (pdfData) => {
-      //converting URI encoding to normal text
+        //converting URI encoding to normal text
         for (var i = 0; i < pdfData.Pages.length; i++) {
           for (var j = 0; j < pdfData.Pages[i].Texts.length; j++) {
             pdfData.Pages[i].Texts[j].R[0].T = decodeURIComponent(
@@ -23,8 +23,8 @@ const scraper = (pdfBuffer) => {
             );
           }
         }
-        
-    //staring scraping
+
+        //staring scraping
         const pages = pdfData.Pages;
 
         const leftTexts = [];
