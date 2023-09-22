@@ -6,38 +6,64 @@ const parseExperience = (data) => {
   let activeRole;
   let insideDesc = false;
   data.forEach((item, i) => {
-    //console.log(item.R);
     if (item.R[0].TS[1] === 15) {
-      activeCompany = { name: item.R[0].T, index: i };
-      companies.push({
-        name: item.R[0].T,
-        roles: [],
-      });
+      if (data[i - 1]?.R[0].TS[1] === 15) {
+        companies[companies.length - 1].name += " " + item.R[0].T;
+        activeCompany.index = i;
+      } else {
+        activeCompany = { name: item.R[0].T, index: i };
+        companies.push({
+          name: item.R[0].T,
+          roles: [],
+        });
+      }
     }
 
     if (item.R[0].TS[1] === 14.5) {
-      activeRole = { name: item.R[0].T, index: i };
-      insideDesc = false;
-      companies[companies.length - 1].roles.push({
-        name: item.R[0].T,
-        dateStart: "",
-        dateEnd: "",
-        duration: "",
-        location: "",
-        desc: "",
-      });
+      if (data[i - 1]?.R[0].TS[1] === 14.5) {
+        companies[companies.length - 1].roles[
+          companies[companies.length - 1].roles.length - 1
+        ].name += " " + item.R[0].T;
+        activeRole.index = i;
+      } else {
+        activeRole = { name: item.R[0].T, index: i };
+        insideDesc = false;
+        companies[companies.length - 1].roles.push({
+          name: item.R[0].T,
+          dateStart: "",
+          dateEnd: "",
+          duration: "",
+          location: "",
+          desc: "",
+        });
+      }
     }
     if (item.R[0].TS[1] === 13.5 && i === activeRole?.index + 1) {
       const roles = companies[companies.length - 1].roles;
-
+      const dateArray = item.R[0].T.trim().split(" - ");
       roles[roles.length - 1].dateStart = DateTime.fromFormat(
-        item.R[0].T.trim().split(" - ")[0],
+        dateArray[0],
         "MMMM yyyy"
       );
       roles[roles.length - 1].dateEnd = DateTime.fromFormat(
-        item.R[0].T.trim().split(" - ")[1],
+        dateArray[1],
         "MMMM yyyy"
       );
+
+      if (roles[roles.length - 1].dateStart.invalid) {
+        roles[roles.length - 1].dateStart = DateTime.fromFormat(
+          dateArray[0],
+          "yyyy"
+        );
+        roles[roles.length - 1].dateEnd = DateTime.fromFormat(
+          dateArray[1],
+          "yyyy"
+        );
+      }
+      roles[roles.length - 1].dateStart =
+        roles[roles.length - 1].dateStart.toISODate();
+      roles[roles.length - 1].dateEnd =
+        roles[roles.length - 1].dateEnd.toISODate();
     }
     if (item.R[0].TS[1] === 13.5 && i === activeRole?.index + 2) {
       const roles = companies[companies.length - 1].roles;

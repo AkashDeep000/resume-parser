@@ -1,5 +1,6 @@
 import PDFParser from "pdf2json";
 import camelCase from "camelcase";
+import { DateTime } from "luxon";
 import parseExperience from "./parseExperience.js";
 import parseEducation from "./parseEducation.js";
 
@@ -38,20 +39,17 @@ const scraper = (pdfBuffer) => {
               leftTexts.push(texts[j]);
             } else if (texts[j].y < 47) {
               rightTexts.push(texts[j]);
-              //console.log(texts[j].R);
             }
           }
         }
-        //console.log({ leftTexts, rightTexts });
+
         const leftData = {};
         let leftActiveSection;
         for (let i = 0; i < leftTexts.length; i++) {
-          //console.log(leftTexts[i]);
           if (leftTexts[i].R[0].TS[1] === 16) {
             leftActiveSection = leftTexts[i].R[0].T;
             leftData[camelCase(leftActiveSection)] = [];
           } else {
-            //console.log(leftTexts[i]);
             const leftActiveSectionData =
               leftData[camelCase(leftActiveSection)];
             if (
@@ -108,7 +106,9 @@ const scraper = (pdfBuffer) => {
         }
 
         const rightData = {};
-        rightData.createdAt = new Date(pdfData.Meta.Metadata["xmp:createdate"])
+        rightData.createdAt = DateTime.fromISO(
+          pdfData.Meta.Metadata["xmp:createdate"]
+        ).toISODate();
         rightData.name = rightTexts[0].R[0].T;
         rightData.tagline = rightTexts[1].R[0].T;
         rightData.location = rightTexts[2].R[0].T;
@@ -117,7 +117,6 @@ const scraper = (pdfBuffer) => {
         const educationRelatedTexts = [];
         let rightActiveSection;
         for (let i = 0; i < rightTexts.length; i++) {
-          //console.log(rightTexts[i]);
           if (rightTexts[i].R[0].TS[1] === 18.75) {
             rightActiveSection = rightTexts[i].R[0].T;
           } else {
@@ -145,7 +144,6 @@ const scraper = (pdfBuffer) => {
           if (!rightData.summary) {
             rightData.summary = "";
           }
-          // console.log(item);
           if (item.y - summaryRelatedTexts[i - 1]?.y > 1.8) {
             rightData.summary += "\n\n";
           } else if (
