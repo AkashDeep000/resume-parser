@@ -8,7 +8,6 @@ const scraper = (pdfBuffer) => {
   return new Promise((resolve, reject) => {
     const pdfParser = new PDFParser();
     pdfParser.parseBuffer(pdfBuffer);
-    // pdfParser.loadPDF("/storage/emulated/0/Download/Steely_M.pdf");
 
     pdfParser.on("pdfParser_dataError", (errData) => {
       console.error(errData.parserError);
@@ -37,7 +36,7 @@ const scraper = (pdfBuffer) => {
           for (let j = 0; j < texts.length; j++) {
             if (texts[j].x < 13) {
               leftTexts.push(texts[j]);
-            } else if (texts[j].y < 47) {
+            } else if (texts[j].y < 47.5) {
               rightTexts.push(texts[j]);
             }
           }
@@ -135,7 +134,7 @@ const scraper = (pdfBuffer) => {
         const experience = parseExperience(experienceRelatedTexts);
         const education = parseEducation(educationRelatedTexts);
 
-        if (experience?.[0]?.roles[0]?.dateEnd) {
+        if (!experience?.[0]?.roles[0]?.dateEnd && experience?.[0]?.roles[0]?.dateStart) {
           rightData.currentRole = experience[0].roles[0].name;
           rightData.currentCompany = experience[0].name;
         }
@@ -164,6 +163,7 @@ const scraper = (pdfBuffer) => {
         const finalData = { ...rightData, ...leftData };
         resolve(finalData);
       } catch (error) {
+        console.log(error);
         reject(new Error(error));
       }
     });

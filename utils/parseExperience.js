@@ -40,7 +40,15 @@ const parseExperience = (data) => {
     }
     if (item.R[0].TS[1] === 13.5 && i === activeRole?.index + 1) {
       const roles = companies[companies.length - 1].roles;
+      
       const dateArray = item.R[0].T.trim().split(" - ");
+      if (!dateArray?.[0]) {
+        dateArray[1] = "Not Present";
+      }
+      if (!dateArray?.[1]) {
+        dateArray[1] = "Not Present";
+      }
+
       roles[roles.length - 1].dateStart = DateTime.fromFormat(
         dateArray[0],
         "MMMM yyyy"
@@ -74,11 +82,13 @@ const parseExperience = (data) => {
     }
     if (
       item.R[0].TS[1] === 13.5 &&
-      i === activeRole?.index + 3 &&
+      i > activeRole?.index &&
       item.oc === "#b0b0b0"
     ) {
       const roles = companies[companies.length - 1].roles;
-      roles[roles.length - 1].location = item.R[0].T;
+      roles[roles.length - 1].location += " " + item.R[0].T;
+      roles[roles.length - 1].location =
+        roles[roles.length - 1].location.trim();
     }
     if (
       companies[companies.length - 1].roles.length > 0 &&
