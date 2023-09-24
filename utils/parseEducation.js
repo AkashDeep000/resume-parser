@@ -14,8 +14,8 @@ const parseEducation = (data) => {
         education.push({
           institutionName: item.R[0].T,
           course: "",
-          dateStart: "",
-          dateEnd: "",
+          dateStart: null,
+          dateEnd: null,
         });
       }
     }
@@ -26,37 +26,38 @@ const parseEducation = (data) => {
         education[education.length - 1].course =
           activeEducationDesc.split(" · ")[0];
         const dateText = activeEducationDesc.split(" · ")[1];
+        if (dateText) {
+          const dateArray = dateText.match(/\(([^)]+)\)/)?.[1].split(" - ");
+          if (!dateArray?.[0]) {
+            dateArray[1] = "Not Present";
+          }
+          if (!dateArray?.[1]) {
+            dateArray[1] = "Not Present";
+          }
 
-        const dateArray = dateText.match(/\(([^)]+)\)/)?.[1].split(" - ");
-        if (!dateArray?.[0]) {
-          dateArray[1] = "Not Present";
-        }
-        if (!dateArray?.[1]) {
-          dateArray[1] = "Not Present";
-        }
-
-        education[education.length - 1].dateStart = DateTime.fromFormat(
-          dateArray?.[0],
-          "yyyy"
-        );
-        education[education.length - 1].dateEnd = DateTime.fromFormat(
-          dateArray?.[1],
-          "yyyy"
-        );
-        if (education[education.length - 1].dateStart.invalid) {
           education[education.length - 1].dateStart = DateTime.fromFormat(
-            dateArray[0],
-            "MMMM yyyy"
+            dateArray?.[0],
+            "yyyy"
           );
           education[education.length - 1].dateEnd = DateTime.fromFormat(
-            dateArray[1],
-            "MMMM yyyy"
+            dateArray?.[1],
+            "yyyy"
           );
+          if (education[education.length - 1].dateStart.invalid) {
+            education[education.length - 1].dateStart = DateTime.fromFormat(
+              dateArray[0],
+              "MMMM yyyy"
+            );
+            education[education.length - 1].dateEnd = DateTime.fromFormat(
+              dateArray[1],
+              "MMMM yyyy"
+            );
+          }
+          education[education.length - 1].dateStart =
+            education[education.length - 1].dateStart.toISODate();
+          education[education.length - 1].dateEnd =
+            education[education.length - 1].dateEnd.toISODate();
         }
-        education[education.length - 1].dateStart =
-          education[education.length - 1].dateStart.toISODate();
-        education[education.length - 1].dateEnd =
-          education[education.length - 1].dateEnd.toISODate();
       }
     }
   });
