@@ -121,18 +121,21 @@ const scraper = (pdfBuffer) => {
           if (!gotLocation) {
             if (rightTexts[i].R[0].TS[1] === 29) {
               rightData.name += " " + rightTexts[i].R[0].T;
+              rightData.name = rightData.name.trim()
             }
             if (
               rightTexts[i].R[0].TS[1] === 15 &&
               rightTexts[i].oc !== "#b0b0b0"
             ) {
               rightData.tagline += " " + rightTexts[i].R[0].T;
+              rightData.tagline = rightData.tagline.trim()
             }
             if (
               rightTexts[i].R[0].TS[1] === 15 &&
               rightTexts[i].oc === "#b0b0b0"
             ) {
               rightData.location += " " + rightTexts[i].R[0].T;
+              rightData.location = rightData.location.trim()
             }
             if (rightTexts[i].R[0].TS[1] === 18.75) {
               gotLocation = true;
