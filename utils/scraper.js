@@ -45,16 +45,20 @@ const scraper = (pdfBuffer) => {
         const leftData = {};
         let leftActiveSection;
         for (let i = 0; i < leftTexts.length; i++) {
+          
           if (leftTexts[i].R[0].TS[1] === 16) {
             leftActiveSection = leftTexts[i].R[0].T;
             leftData[camelCase(leftActiveSection)] = [];
           } else {
             const leftActiveSectionData =
               leftData[camelCase(leftActiveSection)];
-            if ((
+
+            if (
               !leftActiveSectionData ||
               leftTexts[i - 1].oc === "#a8b0b5" ||
-              leftTexts[i].y - leftTexts[i - 1]?.y > 1)) {
+              leftTexts[i].y - leftTexts[i - 1]?.y > 1 ||
+              leftTexts[i].y < leftTexts[i - 1]?.y
+            ) {
               if (leftActiveSection === "Contact") {
                 let emailRegex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
@@ -120,21 +124,21 @@ const scraper = (pdfBuffer) => {
           if (!gotLocation) {
             if (rightTexts[i].R[0].TS[1] === 29) {
               rightData.name += " " + rightTexts[i].R[0].T;
-              rightData.name = rightData.name.trim()
+              rightData.name = rightData.name.trim();
             }
             if (
               rightTexts[i].R[0].TS[1] === 15 &&
               rightTexts[i].oc !== "#b0b0b0"
             ) {
               rightData.tagline += " " + rightTexts[i].R[0].T;
-              rightData.tagline = rightData.tagline.trim()
+              rightData.tagline = rightData.tagline.trim();
             }
             if (
               rightTexts[i].R[0].TS[1] === 15 &&
               rightTexts[i].oc === "#b0b0b0"
             ) {
               rightData.location += " " + rightTexts[i].R[0].T;
-              rightData.location = rightData.location.trim()
+              rightData.location = rightData.location.trim();
             }
             if (rightTexts[i].R[0].TS[1] === 18.75) {
               gotLocation = true;
