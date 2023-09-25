@@ -8,12 +8,12 @@ const parseExperience = (data) => {
   data.forEach((item, i) => {
     if (item.R[0].TS[1] === 15) {
       if (data[i - 1]?.R[0].TS[1] === 15) {
-        companies[companies.length - 1].name += " " + item.R[0].T;
+        companies[companies.length - 1].companyName += " " + item.R[0].T;
         activeCompany.index = i;
       } else {
-        activeCompany = { name: item.R[0].T, index: i };
+        activeCompany = { companyName: item.R[0].T, index: i };
         companies.push({
-          name: item.R[0].T,
+          companyName: item.R[0].T,
           roles: [],
         });
       }
@@ -23,13 +23,13 @@ const parseExperience = (data) => {
       if (data[i - 1]?.R[0].TS[1] === 14.5) {
         companies[companies.length - 1].roles[
           companies[companies.length - 1].roles.length - 1
-        ].name += " " + item.R[0].T;
+        ].title += " " + item.R[0].T;
         activeRole.index = i;
       } else {
-        activeRole = { name: item.R[0].T, index: i };
+        activeRole = { title: item.R[0].T, index: i };
         insideDesc = false;
         companies[companies.length - 1].roles.push({
-          name: item.R[0].T,
+          title: item.R[0].T,
           dateStart: "",
           dateEnd: "",
           duration: "",

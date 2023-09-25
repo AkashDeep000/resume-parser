@@ -103,6 +103,9 @@ const scraper = (pdfBuffer) => {
             }
           }
         }
+        // renaming the languages to language
+        leftData["language"] = leftData["languages"];
+        delete leftData["languages"];
 
         const rightData = {
           name: "",
@@ -114,26 +117,29 @@ const scraper = (pdfBuffer) => {
         ).toISODate();
 
         let gotLocation = false;
-        rightTexts.forEach((item, i) => {
-          if (!gotLocation){
-          if (item.R[0].TS[1] === 29) {
-            rightData.name += item.R[0].T;
+        for (let i = 0; i < rightTexts.length; i++) {
+          if (!gotLocation) {
+            if (rightTexts[i].R[0].TS[1] === 29) {
+              rightData.name += " " + rightTexts[i].R[0].T;
+            }
+            if (
+              rightTexts[i].R[0].TS[1] === 15 &&
+              rightTexts[i].oc !== "#b0b0b0"
+            ) {
+              rightData.tagline += " " + rightTexts[i].R[0].T;
+            }
+            if (
+              rightTexts[i].R[0].TS[1] === 15 &&
+              rightTexts[i].oc === "#b0b0b0"
+            ) {
+              rightData.location += " " + rightTexts[i].R[0].T;
+            }
+            if (rightTexts[i].R[0].TS[1] === 18.75) {
+              gotLocation = true;
+            }
           }
-          if (item.R[0].TS[1] === 15 && item.oc !== "#b0b0b0") {
-            rightData.tagline += item.R[0].T;
-          }
-          if (item.R[0].TS[1] === 15 && item.oc === "#b0b0b0") {
-            rightData.tagline += item.R[0].T;
-          }
-          if (item.R[0].TS[1] === 18.75) {
-            gotLocation = true;
-          }
-          }
-        });
+        }
 
-        rightData.tagline = rightTexts[1].R[0].T;
-        rightData.location = rightTexts[2].R[0].T;
-        rightData.location = rightTexts[3].R[0].T;
         const summaryRelatedTexts = [];
         const experienceRelatedTexts = [];
         const educationRelatedTexts = [];
