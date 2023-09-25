@@ -54,8 +54,7 @@ const scraper = (pdfBuffer) => {
             if ((
               !leftActiveSectionData ||
               leftTexts[i - 1].oc === "#a8b0b5" ||
-              leftTexts[i].y - leftTexts[i - 1]?.y > 1) && leftTexts[i].y - leftTexts[i - 1]?.y < 1
-            ) {
+              leftTexts[i].y - leftTexts[i - 1]?.y > 1)) {
               if (leftActiveSection === "Contact") {
                 let emailRegex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
