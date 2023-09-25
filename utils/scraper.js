@@ -104,13 +104,36 @@ const scraper = (pdfBuffer) => {
           }
         }
 
-        const rightData = {};
+        const rightData = {
+          name: "",
+          tagline: "",
+          location: "",
+        };
         rightData.createdAt = DateTime.fromISO(
           pdfData.Meta.Metadata["xmp:createdate"]
         ).toISODate();
-        rightData.name = rightTexts[0].R[0].T;
+
+        let gotLocation = false;
+        rightTexts.forEach((item, i) => {
+          if (!gotLocation){
+          if (item.R[0].TS[1] === 29) {
+            rightData.name += item.R[0].T;
+          }
+          if (item.R[0].TS[1] === 15 && item.oc !== "#b0b0b0") {
+            rightData.tagline += item.R[0].T;
+          }
+          if (item.R[0].TS[1] === 15 && item.oc === "#b0b0b0") {
+            rightData.tagline += item.R[0].T;
+          }
+          if (item.R[0].TS[1] === 18.75) {
+            gotLocation = true;
+          }
+          }
+        });
+
         rightData.tagline = rightTexts[1].R[0].T;
         rightData.location = rightTexts[2].R[0].T;
+        rightData.location = rightTexts[3].R[0].T;
         const summaryRelatedTexts = [];
         const experienceRelatedTexts = [];
         const educationRelatedTexts = [];
@@ -134,7 +157,10 @@ const scraper = (pdfBuffer) => {
         const experience = parseExperience(experienceRelatedTexts);
         const education = parseEducation(educationRelatedTexts);
 
-        if (!experience?.[0]?.roles[0]?.dateEnd && experience?.[0]?.roles[0]?.dateStart) {
+        if (
+          !experience?.[0]?.roles[0]?.dateEnd &&
+          experience?.[0]?.roles[0]?.dateStart
+        ) {
           rightData.currentRole = experience[0].roles[0].name;
           rightData.currentCompany = experience[0].name;
         }
