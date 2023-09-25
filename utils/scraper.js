@@ -167,8 +167,8 @@ const scraper = (pdfBuffer) => {
           !experience?.[0]?.roles[0]?.dateEnd &&
           experience?.[0]?.roles[0]?.dateStart
         ) {
-          rightData.currentRole = experience[0].roles[0].name;
-          rightData.currentCompany = experience[0].name;
+          rightData.currentRole = experience[0].roles[0].title;
+          rightData.currentCompany = experience[0].companyName;
         }
 
         summaryRelatedTexts.forEach((item, i) => {
