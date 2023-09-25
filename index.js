@@ -8,8 +8,8 @@ app.use(fileUpload());
 const port = 3000;
 
 app.all("/", async (req, res) => {
+  try {
   const demo = req.query.demo;
-
   if (!(req.files?.pdf || demo)) {
     return res
       .status(400)
@@ -29,7 +29,7 @@ app.all("/", async (req, res) => {
   } else {
     pdfBuffer = req.files.pdf.data;
   }
-  try {
+  
     const data = await scraper(pdfBuffer);
     return res.json(data);
   } catch (error) {
