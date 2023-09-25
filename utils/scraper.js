@@ -51,7 +51,7 @@ const scraper = (pdfBuffer) => {
           } else {
             const leftActiveSectionData =
               leftData[camelCase(leftActiveSection)];
-            if (()
+            if ((
               !leftActiveSectionData ||
               leftTexts[i - 1].oc === "#a8b0b5" ||
               leftTexts[i].y - leftTexts[i - 1]?.y > 1) && leftTexts[i].y - leftTexts[i - 1]?.y < 1
