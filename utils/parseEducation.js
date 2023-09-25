@@ -48,6 +48,8 @@ const parseEducation = (data) => {
               dateArray[0],
               "MMMM yyyy"
             );
+          }
+          if (education[education.length - 1].dateEnd.invalid) {
             education[education.length - 1].dateEnd = DateTime.fromFormat(
               dateArray[1],
               "MMMM yyyy"

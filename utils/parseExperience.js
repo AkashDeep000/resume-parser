@@ -63,6 +63,8 @@ const parseExperience = (data) => {
           dateArray[0],
           "yyyy"
         );
+      }
+      if (roles[roles.length - 1].dateEnd.invalid) {
         roles[roles.length - 1].dateEnd = DateTime.fromFormat(
           dateArray[1],
           "yyyy"
