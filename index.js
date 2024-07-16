@@ -55,6 +55,8 @@ app.get('/profile', async (req, res) => {
     "method": "GET"
   });
   if (htmlRes.status !== 200) {
+    log(htmlRes)
+    log(htmlRes.text())
     const data = {
       success: false,
       message: "failed to fetch profile page"
