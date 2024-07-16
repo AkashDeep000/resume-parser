@@ -26,36 +26,35 @@ app.use(cors());
 const port = 3001;
 
 app.get('/profile', async (req, res) => {
-  const cookie = `bcookie="v=2&5c8dd745-10fb-4a31-8655-441f666c0436"; bscookie="v=1&20240709235637fb4b8b8e-54ea-4e8c-8585-4ef34f55b999AQHWJ6pDeIxA-gMlX1o2xQswQAbrjzBT"; li_rm=AQGVG93s_IjwsQAAAZC5NN7ZwtfhOW-ZISPHQdc2ACYE6eK4FPnJI3I-BGNiTPoUpEyunCDXPek5ubdM5ZLlaIph3b69VJwoSu4F-nEOS-ucXGCmkPGqX5Yl; timezone=Asia/Calcutta; li_theme=light; li_theme_set=app; dfpfpt=71ed830406ca466b91611d2d7c4ec133; fptctx2=taBcrIH61PuCVH7eNCyH0OPzOrGnaCb%252f7mTjN%252fuIW2tDv%252bEzQJrmc0f7kfGDhpV%252bC1hBKebp%252b%252fTYvV1mfkdGMadchIMr8FOhmHjpDdDA5LfAfX4CRaVBEdp915eQPdPJxiTGcmpDqFZApKl%252btfcU6UfN7l6xY9HGaliPLYKYpmFV1ABgrSxmrnee%252fV1NyGr7SWCa9Mx0qtsADgNftxE0YUx6RLpG1Cy5e%252b%252bbFIEwK9p8J2JAC8Hs7X2ebTVp4J03o%252f1xE8a%252fdnUFZ90hHjWIHfTQFmwPPCo7wkE1HZNK38c9lOglGwJdupHLJCR7sMz3qXONZN3dAb4zkEMFqcg8NrjbGHvQElEvV%252byw9AjkbLs%253d; visit=v=1&M; PLAY_LANG=en; PLAY_SESSION=eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjp7InNlc3Npb25faWQiOiJiODI3ODMzNy1kYzczLTQwYTUtOGMxZS1mYWNlMWVhYzEyNDJ8MTcyMTA5NDc1NCIsImFsbG93bGlzdCI6Int9IiwicmVjZW50bHktc2VhcmNoZWQiOiIiLCJyZWZlcnJhbC11cmwiOiJodHRwczovL3d3dy5saW5rZWRpbi5jb20vaGVscC9saW5rZWRpbi9hbnN3ZXIvYTU2NDIyNi8iLCJyZWNlbnRseS12aWV3ZWQiOiIiLCJDUFQtaWQiOiLCsXzCkMOmYsKQwrHDjzo9wpTCicKIXHUwMDEySsO2IiwiZXhwZXJpZW5jZSI6IiIsInRyayI6IiJ9LCJuYmYiOjE3MjEwOTQ3NTQsImlhdCI6MTcyMTA5NDc1NH0.qlhXfupcPUJz-2wvFqQ8LHm81vlh6SllLl3KfaOoKNc; fid=AQGKMcCNxY1IgQAAAZC5YlJ6gnfu_6azy2FZhwiLDqoi2Jrse8LgNmgNily_BuF9TiJE_RIMAHSaiQ; g_state={"i_l":0}; li_g_recent_logout=v=1&true; lang=v=2&lang=en-us; li_at=AQEDAU_R4ggDlhDcAAABkLy7sq0AAAGQ4Mg2rU4AKl8cmm9ubSe2lBhP8svEjTW2_8sekmpjG3eyWpciWfVgsW8zm1ZFgsfvZmM4x_uIOX1xXenVzlGxqur8z55nSqrCC8R5amQULnakI__2G3SrIyOq; liap=true; JSESSIONID="ajax:0663223499205378718"; lidc="b=TB52:s=T:r=T:a=T:p=T:g=4389:u=3:x=1:i=1721153336:t=1721194814:v=2:sig=AQHDTqR9YtPLF3k6htyvNF9GWiHvMWGT"; UserMatchHistory=AQKzju_y_fieaAAAAZC8u8ncu7Dh5DdB2pbMajT4niEw2n5kn9qxsQu44f-HIDKbU2vV6O1kvM-bhFgqCHt4Ci7hlc1nlQtfbZbwZK_QFCScNrpxhOI7cX8zO3cFbo-uc2gcvQZ5m6iK9VEIJTsdSYRXdPGoq-tNU2rSPaNA_19Vk8gCVJ413JDO_-fd90_orjFN9sJ1siTrb4w0fUSaXUFpOe_f3XE7FBgrdtUAaXaTVJGZ20-bebFiGm0VVNHvjmYzqhk4zEP6B-vueRCYJxubCqTjFmuJ0JAAE6-x7AUvfxPCipDWR_lXz14CGMB1rOzGy6ShaxF0gM2nvytS`;
-  const csrfToken = process.env.CSRFTOKEN
+  const cookie = "bcookie=\"v=2&babcd347-75c8-426c-82d0-55741348e726\"; lang=v=2&lang=en-us; bscookie=\"v=1&202407161834244fbf8492-8756-46ab-8156-694232b84663AQGrtUoxBjF94UM_4MUhTnx705ax3l7O\"; rtc=AQGU1QQNwkoi_AAAAZC80zow1oOuKGP5pSaDQpB_KmjDcJvIhYJRkI6U1IexxkY_nARilBcQk2QVMdvQaPNhTXay4Zk1BvjqZY60N4OLKmYTc2ECvU6_3BF4opnxhh74qKNuozfRxcOjM6zBLb5WT8wK2kbWrCaredegqT4KL9BrRYRL56n19gmCH5Q63ILjM8qT8NngAzZFCfrTGyfP3jAj3ZOqYKzb59L7evII; g_state={\"i_l\":0}; li_at=AQEDAU_R4ggDxgMeAAABkLzTZXgAAAGQ4N_peE4AzlgQ4Ib1-6CPupOUebd_FZ_9m806WvfxWNv4TFA2nbb6yq2B-O50_rOzi5UUnHdH4VHdRGPCll1q_eFLEIYNrV-sfFUye7PZ7bTZJFSbz93PIv8d; liap=true; JSESSIONID=\"ajax:2533360910652380632\"; fid=AQGbp_7BN58y7gAAAZC802dU9hwLJnHrI2SSpbhWriFuc5Yf7SJ4CtUTjptvVKyn8vMjQyC1XTpugA; lidc=\"b=TB52:s=T:r=T:a=T:p=T:g=4389:u=3:x=1:i=1721154889:t=1721194814:v=2:sig=AQF3ejlK9iC9Ax-kuAD2kg2hPyJ3OyYS\"; timezone=Asia/Calcutta; li_theme=light; li_theme_set=app; UserMatchHistory=AQKJoNayfCOvmwAAAZC8037LCvQdCKL_DffJ_n510TcVSaYfzZNIZMFvQV0cDtMtWDIYZtuvXGBRSjUT9dAEPJMQPjQMWn3tUuiaxuuMS5XPJC6geORLIZ4tRyqraEP22O01CPMnhH2p2GRDlpBpkluP7fIXWOfXTHmzqMffpuiUs7gfCm6H4ZuAH2_U4SUjpRE57_jnycHswWnD9oC2e0p0p5VdrBzxJadPkSZG8U90Yi0zPV8lD2O4S-TYVyPw6PqFLDHW7omey-qT2uHGqSH3o88h7uzDp-bPXyI5CCbcryIRLrvyoR7feYMnEZxwzCffghcuYsJGWHXtkl5f; dfpfpt=3c205b28a4fb437a9161e9ad67480c7c; fptctx2=taBcrIH61PuCVH7eNCyH0J9Fjk1kZEyRnBbpUW3FKs95h3Tl7VraJWCL9UlSQhaKqAp7qeZvxVRdIyFPfc%252fvanSDcOvEfh%252b7lRv9hrJT8FGR%252fT0wVWQGHPH7Y3bTavurSXk%252fcnC%252f0BK3a2trruTFroDdlYpWXaaofbvMJ%252fWPbLDdcOREPQ3m3fqXXvWkj%252f1O8Dmf7%252fKbM5dtv4jLNkH0ozInC8xxwVTNyj9sUJLgqAX%252fNuVMU8akmv5LN7hYWnqRPpQC4dZCOiaYw73J0ZjQ2X28jzHKDz1hUdAA126Zh0X8oGqXXS4%252buW6nV7PTAUXjLXqfxUcOe2a%252bnY7UUCAkmI%252fGTGF4Zek%252fGn0rmeOB1tY%253d"
+  const csrfToken = "ajax:2533360910652380632"
   log(cookie, csrfToken)
-  const profileUrl = req.query.url
-  // log(profileUrl)
+  const profileUrl = new URL(req.query.url)
+  log({profileUrl})
   // const test = await fetch("https://geo.brdtest.com/mygeo.json", {agent})
   // log(await test.json())
-  const htmlRes = await fetch(profileUrl, {
+  const htmlRes = await fetch(`https://www.linkedin.com/voyager/api/graphql?includeWebMetadata=true&variables=(vanityName:${profileUrl.pathname.split("/")[2]})&queryId=voyagerIdentityDashProfiles.2531a1a7d1d5530ad1834e0012bf7d50`, {
     "headers": {
-      "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+      "accept": "application/vnd.linkedin.normalized+json+2.1",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,bn;q=0.7",
-      "cache-control": "no-cache",
-      "pragma": "no-cache",
-      "priority": "u=0, i",
+      "csrf-token": csrfToken,
+      "priority": "u=1, i",
       "sec-ch-ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
       "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua-platform": "\"Mac OS\"",
-      "sec-fetch-dest": "document",
-      "sec-fetch-mode": "navigate",
+      "sec-ch-ua-platform": "\"Linux\"",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
       "sec-fetch-site": "same-origin",
-      "sec-fetch-user": "?1",
-      "upgrade-insecure-requests": "1",
+      "x-li-lang": "en_US",
+      "x-restli-protocol-version": "2.0.0",
       "cookie": cookie,
-      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
+      "Referrer-Policy": "strict-origin-when-cross-origin"
     },
-    "referrerPolicy": "strict-origin-when-cross-origin",
     "body": null,
     "method": "GET"
   });
-  if (htmlRes.status !== 200) {
+
+   if (htmlRes.status !== 200) {
     log(htmlRes)
     log(await htmlRes.text())
     const data = {
@@ -64,9 +63,9 @@ app.get('/profile', async (req, res) => {
     }
     return res.status(400).json(data)
   }
-  const html = await htmlRes.text()
 
-  const profileId = html.split("urn:li:fsd_profileCard:(")[1].split(",")[0]
+  const profileId = (await htmlRes.json()).data.data.identityDashProfilesByMemberIdentity["*elements"][0]
+  log({profileId})
 
   const reqs = await fetch("https://www.linkedin.com/voyager/api/graphql?action=execute&queryId=voyagerIdentityDashProfileActionsV2.ca80b3b293240baf5a00226d8d6d78a1", {
     "headers": {
@@ -90,7 +89,7 @@ app.get('/profile', async (req, res) => {
       "Referrer-Policy": "strict-origin-when-cross-origin",
       "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
     },
-    "body": `{\"variables\":{\"profileUrn\":\"urn:li:fsd_profile:${profileId}\"},\"queryId\":\"voyagerIdentityDashProfileActionsV2.ca80b3b293240baf5a00226d8d6d78a1\",\"includeWebMetadata\":true}`,
+    "body": `{\"variables\":{\"profileUrn\":\"${profileId}\"},\"queryId\":\"voyagerIdentityDashProfileActionsV2.ca80b3b293240baf5a00226d8d6d78a1\",\"includeWebMetadata\":true}`,
     "method": "POST"
   });
 
