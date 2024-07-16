@@ -24,8 +24,7 @@ app.get('/profile', async (req, res) => {
   const csrfToken = process.env.CSRFTOKEN
   log(cookie,csrfToken)
   const profileUrl = req.query.url
-  const htmlRes = await fetch(profileUrl, {
-    dispatcher,
+  const htmlRes = await fetch("https://fetch-proxy.akashdeep.workers.dev/proxy?modify&proxyUrl=" + profileUrl, {
     "headers": {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,bn;q=0.7",
@@ -49,6 +48,7 @@ app.get('/profile', async (req, res) => {
   if (htmlRes.status !== 200) {
     const data = {
       success: false,
+      message: "failed to fetch profile page"
     }
     return res.status(400).json(data)
   }
@@ -83,8 +83,10 @@ app.get('/profile', async (req, res) => {
   });
 
   if (reqs.status !== 200) {
+    log(await reqs.text())
     const data = {
       success: false,
+      message: "failed to fetch pdf link"
     }
     return res.status(400).json(data)
   }
@@ -92,7 +94,7 @@ app.get('/profile', async (req, res) => {
   const data = await reqs.json()
   // @ts-ignore
   const pdfLink = data.data.data.doSaveToPdfV2IdentityDashProfileActionsV2.result.downloadUrl
-  const pdfRes = await fetch(pdfLink, 
+  const pdfRes = await fetch("https://fetch-proxy.akashdeep.workers.dev/proxy?modify&proxyUrl=" + pdfLink, 
     {
     "headers": {
       "accept": "*/*",
