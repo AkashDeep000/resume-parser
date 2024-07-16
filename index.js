@@ -28,9 +28,9 @@ app.get('/profile', async (req, res) => {
   const csrfToken = process.env.CSRFTOKEN
   log(cookie, csrfToken)
   const profileUrl = req.query.url
-  log(profileUrl)
-  const test = await fetch("https://geo.brdtest.com/mygeo.json", {agent})
-  log(await test.json())
+  // log(profileUrl)
+  // const test = await fetch("https://geo.brdtest.com/mygeo.json", {agent})
+  // log(await test.json())
   const htmlRes = await fetch(profileUrl, {
     "headers": {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
