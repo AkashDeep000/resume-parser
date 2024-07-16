@@ -26,8 +26,8 @@ app.use(cors());
 const port = 3001;
 
 app.get('/profile', async (req, res) => {
-  const cookie = `bcookie="v=2&babcd347-75c8-426c-82d0-55741348e726"; lang=v=2&lang=en-us; bscookie="v=1&202407161834244fbf8492-8756-46ab-8156-694232b84663AQGrtUoxBjF94UM_4MUhTnx705ax3l7O"; g_state={"i_l":0}; li_at=AQEDAU_R4ggDxgMeAAABkLzTZXgAAAGQ4N_peE4AzlgQ4Ib1-6CPupOUebd_FZ_9m806WvfxWNv4TFA2nbb6yq2B-O50_rOzi5UUnHdH4VHdRGPCll1q_eFLEIYNrV-sfFUye7PZ7bTZJFSbz93PIv8d; liap=true; JSESSIONID="ajax:2533360910652380632"; fid=AQGbp_7BN58y7gAAAZC802dU9hwLJnHrI2SSpbhWriFuc5Yf7SJ4CtUTjptvVKyn8vMjQyC1XTpugA; lidc="b=TB52:s=T:r=T:a=T:p=T:g=4389:u=3:x=1:i=1721154889:t=1721194814:v=2:sig=AQF3ejlK9iC9Ax-kuAD2kg2hPyJ3OyYS"; timezone=Asia/Calcutta; li_theme=light; li_theme_set=app; dfpfpt=3c205b28a4fb437a9161e9ad67480c7c; fptctx2=taBcrIH61PuCVH7eNCyH0J9Fjk1kZEyRnBbpUW3FKs95h3Tl7VraJWCL9UlSQhaKqAp7qeZvxVRdIyFPfc%252fvanSDcOvEfh%252b7lRv9hrJT8FGR%252fT0wVWQGHPH7Y3bTavurSXk%252fcnC%252f0BK3a2trruTFroDdlYpWXaaofbvMJ%252fWPbLDdcOREPQ3m3fqXXvWkj%252f1O8Dmf7%252fKbM5dtv4jLNkH0ozInC8xxwVTNyj9sUJLgqAX%252fNuVMU8akmv5LN7hYWnqRPpQC4dZCOiaYw73J0ZjQ2X28jzHKDz1hUdAA126Zh0X8oGqXXS4%252buW6nV7PTAUXjLXqfxUcOe2a%252bnY7UUCAkmI%252fGTGF4Zek%252fGn0rmeOB1tY%253d; UserMatchHistory=AQLjWabaD1sWIQAAAZC9bMZqHtySpjTOIpxdhCWK2L2ov5XTMk_SWxJmqyXUQEsTI-QT6OHyQ0M8FdHgF_O4KFO9B8gqcS09c6Zukm-6RfOpYMOnz-5PrbxmBR8anOvWQgMXqA4Leb4RWbYlGzunjF26g6aMExcq8vdYOB2ZIevGX8XlqRycOue-kLIaMOlInOPsUoHt6RDorhvKAjJ0lFUOu-gag4DiWzztUxP9dpUT2iz-ZqXzVjWD75eBztYkc2SFHIbccTQzke64oyW6qxAb2ofcxqMt9CbjunQLxLPLUxSKHQ1h6e6ouPA5TeLjF2-0-cwwEXqfZR2wnQiu`
-  const csrfToken = "ajax:2533360910652380632"
+  const cookie = `bcookie="v=2&babcd347-75c8-426c-82d0-55741348e726"; bscookie="v=1&202407161834244fbf8492-8756-46ab-8156-694232b84663AQGrtUoxBjF94UM_4MUhTnx705ax3l7O"; fid=AQGbp_7BN58y7gAAAZC802dU9hwLJnHrI2SSpbhWriFuc5Yf7SJ4CtUTjptvVKyn8vMjQyC1XTpugA; timezone=Asia/Calcutta; li_theme=light; li_theme_set=app; dfpfpt=3c205b28a4fb437a9161e9ad67480c7c; fptctx2=taBcrIH61PuCVH7eNCyH0J9Fjk1kZEyRnBbpUW3FKs95h3Tl7VraJWCL9UlSQhaKqAp7qeZvxVRdIyFPfc%252fvanSDcOvEfh%252b7lRv9hrJT8FGR%252fT0wVWQGHPH7Y3bTavurSXk%252fcnC%252f0BK3a2trruTFroDdlYpWXaaofbvMJ%252fWPbLDdcOREPQ3m3fqXXvWkj%252f1O8Dmf7%252fKbM5dtv4jLNkH0ozInC8xxwVTNyj9sUJLgqAX%252fNuVMU8akmv5LN7hYWnqRPpQC4dZCOiaYw73J0ZjQ2X28jzHKDz1hUdAA126Zh0X8oGqXXS4%252buW6nV7PTAUXjLXqfxUcOe2a%252bnY7UUCAkmI%252fGTGF4Zek%252fGn0rmeOB1tY%253d; li_g_recent_logout=v=1&true; visit=v=1&M; lang=v=2&lang=en-us; g_state={"i_l":1,"i_p":1721172788165}; liap=true; li_at=AQEDATa-dcECRGraAAABkL13WZsAAAGQ4YPdm04A0FO-3RogBN9f-118s_0UZHE9c1ZDV7lXH7q0_KGfVeKmtNeH2oGmaiaZDBMqaJcz7xoCVzpIFP1Rjvs46UHLpgy8KoWkPPFAHb8l0pnX027agQnf; JSESSIONID="ajax:3862051186780878571"; lidc="b=TB49:s=T:r=T:a=T:p=T:g=14511:u=462:x=1:i=1721165634:t=1721166903:v=2:sig=AQGk5bYrkN-dEDPkEUifBprh9E-bpS4u"; UserMatchHistory=AQLLWCSDk53HGwAAAZC9d4w_-iT9By5opyX1BM_QnRvERR09U9XDeTSZTrwTQuHNlEXk55NBnyl1DJMGGF4J1T1x2cPTRzTB_QOUSJMakKz8WXeXxsadL2e3aUguvnql1FagVjUzYuw8UkMmg6PrmtP9rvVNsD9nj4o-A5TP8CFBg9kk7oAR0E2iiFdv2xRap726d2NY8MExRnAZgHZkix_u2H8BCWwF7sADXu0Cwxe5M6I6WYN-fJ3DaFy50x_KWHWhWZXKCEqWPqe6MWAHZTp_mxZDv7SF2pTuRnTDh4exJNplpFhEHfy5wlss4fSpkHe1dFkY_4czldkmqQWI`
+  const csrfToken = "ajax:3862051186780878571"
   log(cookie, csrfToken)
   const profileUrl = new URL(req.query.url)
   log({profileUrl})
@@ -105,6 +105,14 @@ app.get('/profile', async (req, res) => {
   const data = await reqs.json()
   // @ts-ignore
   const pdfLink = data.data.data.doSaveToPdfV2IdentityDashProfileActionsV2.result.downloadUrl
+  log({pdfLink})
+  if (!pdfLink) {
+    const data = {
+      success: false,
+      message: "Reached PDF download limit"
+    }
+    return res.status(400).json(data)
+  }
   const pdfRes = await fetch(pdfLink, {
     "headers": {
       "accept": "*/*",
@@ -124,6 +132,16 @@ app.get('/profile', async (req, res) => {
     "body": null,
     "method": "GET"
   });
+
+  if (reqs.status !== 200) {
+    log(await reqs.text())
+    const data = {
+      success: false,
+      message: "failed to download pdf"
+    }
+    return res.status(400).json(data)
+  }
+  
   console.log(pdfRes);
 
   const pdfFile = await pdfRes.arrayBuffer()
@@ -131,6 +149,7 @@ app.get('/profile', async (req, res) => {
   return res.json(pdfData);
 
 })
+
 
 app.all("/", async (req, res) => {
   try {
