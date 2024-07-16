@@ -4,6 +4,15 @@ import fileUpload from "express-fileupload";
 import scraper from "./utils/scraper.js";
 import dotenv from "dotenv"
 import { log } from "console";
+import { socksDispatcher } from "fetch-socks";
+
+const dispatcher = socksDispatcher({
+  type: 5,
+  host: "129.154.255.44",
+  port: 9050,
+  userId: "username",
+  password: "password",
+});
 
 dotenv.config()
 const app = express();
@@ -16,6 +25,7 @@ app.get('/profile', async (req, res) => {
   log(cookie,csrfToken)
   const profileUrl = req.query.url
   const htmlRes = await fetch(profileUrl, {
+    dispatcher,
     "headers": {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,bn;q=0.7",
@@ -47,6 +57,7 @@ app.get('/profile', async (req, res) => {
   const profileId = html.split("urn:li:fsd_profileCard:(")[1].split(",")[0]
 
   const reqs = await fetch("https://www.linkedin.com/voyager/api/graphql?action=execute&queryId=voyagerIdentityDashProfileActionsV2.ca80b3b293240baf5a00226d8d6d78a1", {
+    dispatcher,
     "headers": {
       "accept": "application/vnd.linkedin.normalized+json+2.1",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,bn;q=0.7",
@@ -81,7 +92,8 @@ app.get('/profile', async (req, res) => {
   const data = await reqs.json()
   // @ts-ignore
   const pdfLink = data.data.data.doSaveToPdfV2IdentityDashProfileActionsV2.result.downloadUrl
-  const pdfRes = await fetch(pdfLink, {
+  const pdfRes = await fetch(pdfLink, 
+    {
     "headers": {
       "accept": "*/*",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,bn;q=0.7",
@@ -100,7 +112,7 @@ app.get('/profile', async (req, res) => {
     "body": null,
     "method": "GET"
   });
-  //console.log(pdfRes);
+  console.log(pdfRes);
 
   const pdfFile = await pdfRes.arrayBuffer()
   const pdfData = await scraper(pdfFile);

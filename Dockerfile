@@ -1,9 +1,21 @@
 # Fetching the minified node image on apline linux
-FROM node:slim
+FROM node:lts-bookworm
 
 # Declaring env
 ENV NODE_ENV development
 
+RUN \
+    echo "**** install packages ****" && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    tor && \
+    echo "**** cleanup ****" && \
+    apt-get autoclean && \
+    rm -rf \
+    /config/.cache \
+    /var/lib/apt/lists/* \
+    /var/tmp/* \
+    /tmp/*
 # Setting up the work directory
 WORKDIR /express-docker
 
