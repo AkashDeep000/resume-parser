@@ -32,7 +32,6 @@ app.get('/profile', async (req, res) => {
   const test = await fetch("https://geo.brdtest.com/mygeo.json", {agent})
   log(await test.json())
   const htmlRes = await fetch(profileUrl, {
-    agent,
     "headers": {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,bn;q=0.7",
@@ -68,7 +67,6 @@ app.get('/profile', async (req, res) => {
   const profileId = html.split("urn:li:fsd_profileCard:(")[1].split(",")[0]
 
   const reqs = await fetch("https://www.linkedin.com/voyager/api/graphql?action=execute&queryId=voyagerIdentityDashProfileActionsV2.ca80b3b293240baf5a00226d8d6d78a1", {
-    agent,
     "headers": {
       "accept": "application/vnd.linkedin.normalized+json+2.1",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,bn;q=0.7",
@@ -107,7 +105,6 @@ app.get('/profile', async (req, res) => {
   // @ts-ignore
   const pdfLink = data.data.data.doSaveToPdfV2IdentityDashProfileActionsV2.result.downloadUrl
   const pdfRes = await fetch(pdfLink, {
-    agent,
     "headers": {
       "accept": "*/*",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,bn;q=0.7",
