@@ -13,7 +13,7 @@ const port = 3001;
 app.get('/profile', async (req, res) => {
   const cookie = process.env.COOKIE
   const csrfToken = process.env.CSRFTOKEN
-
+  log(cookie,csrfToken)
   const profileUrl = req.query.url
   const htmlRes = await fetch(profileUrl, {
     "headers": {
@@ -36,7 +36,12 @@ app.get('/profile', async (req, res) => {
     "body": null,
     "method": "GET"
   });
-
+  if (htmlRes.status !== 200) {
+    const data = {
+      success: false,
+    }
+    return res.status(400).json(data)
+  }
   const html = await htmlRes.text()
 
   const profileId = html.split("urn:li:fsd_profileCard:(")[1].split(",")[0]
