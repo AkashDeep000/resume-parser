@@ -28,6 +28,7 @@ app.get('/profile', async (req, res) => {
   const csrfToken = process.env.CSRFTOKEN
   log(cookie, csrfToken)
   const profileUrl = req.query.url
+  log(profileUrl)
   const test = await fetch("https://geo.brdtest.com/mygeo.json", {agent})
   log(await test.json())
   const htmlRes = await fetch(profileUrl, {
