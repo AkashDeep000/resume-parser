@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 import { log } from "console";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import fetch from 'node-fetch';
+import cors from "cors"
 
 dotenv.config()
 
