@@ -4,19 +4,20 @@ import fileUpload from "express-fileupload";
 import scraper from "./utils/scraper.js";
 import dotenv from "dotenv"
 import { log } from "console";
-import { HttpsProxyAgent } from 'https-proxy-agent';
+import { HttpsProxyAgent } from "https-proxy-agent";
+import fetch from 'node-fetch';
 
 dotenv.config()
 
 // const dispatcher = socksagent({
 //   type: 5,
-//   host: "brd.superproxy.io",
-//   port: 22225,
+//   host: "brd.superproxy.io:22225",
+//   port: 9050,
 //   userId: "brd-customer-hl_ef2cdf28-zone-residential_proxy1",
 //   password: process.env.PASS,
 // });
 
-const agent = new HttpsProxyAgent(process.env.PROXY_URI)
+const agent = new HttpsProxyAgent(process.env.HTTP_PROXY);
 
 const app = express();
 app.use(fileUpload());
