@@ -21,6 +21,7 @@ const agent = new HttpsProxyAgent(process.env.HTTP_PROXY);
 
 const app = express();
 app.use(fileUpload());
+app.use(cors());
 const port = 3001;
 
 app.get('/profile', async (req, res) => {
