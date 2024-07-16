@@ -40,13 +40,14 @@ app.get('/profile', async (req, res) => {
       "priority": "u=0, i",
       "sec-ch-ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
       "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua-platform": "\"Linux\"",
+      "sec-ch-ua-platform": "\"Mac OS\"",
       "sec-fetch-dest": "document",
       "sec-fetch-mode": "navigate",
       "sec-fetch-site": "same-origin",
       "sec-fetch-user": "?1",
       "upgrade-insecure-requests": "1",
-      "cookie": cookie
+      "cookie": cookie,
+      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
     },
     "referrerPolicy": "strict-origin-when-cross-origin",
     "body": null,
@@ -75,7 +76,7 @@ app.get('/profile', async (req, res) => {
       "priority": "u=1, i",
       "sec-ch-ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
       "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua-platform": "\"Linux\"",
+      "sec-ch-ua-platform": "\"Mac OS\"",
       "sec-fetch-dest": "empty",
       "sec-fetch-mode": "cors",
       "sec-fetch-site": "same-origin",
@@ -83,7 +84,8 @@ app.get('/profile', async (req, res) => {
       "x-li-track": "{\"clientVersion\":\"1.13.19864\",\"mpVersion\":\"1.13.19864\",\"osName\":\"web\",\"timezoneOffset\":5.5,\"timezone\":\"Asia/Calcutta\",\"deviceFormFactor\":\"DESKTOP\",\"mpName\":\"voyager-web\",\"displayDensity\":1.25,\"displayWidth\":1920,\"displayHeight\":1200}",
       "x-restli-protocol-version": "2.0.0",
       "cookie": cookie,
-      "Referrer-Policy": "strict-origin-when-cross-origin"
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
     },
     "body": `{\"variables\":{\"profileUrn\":\"urn:li:fsd_profile:${profileId}\"},\"queryId\":\"voyagerIdentityDashProfileActionsV2.ca80b3b293240baf5a00226d8d6d78a1\",\"includeWebMetadata\":true}`,
     "method": "POST"
